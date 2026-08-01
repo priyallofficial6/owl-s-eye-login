@@ -352,8 +352,8 @@ function NexusBackground() {
     const out: { a: number; b: number }[] = [];
     for (let i = 0; i < ECOSYSTEM_NODES.length; i++) {
       for (let j = i + 1; j < ECOSYSTEM_NODES.length; j++) {
-        const dx = ECOSYSTEM_NODES[i].x - ECOSYSTEM_NODES[j].x;
-        const dy = ECOSYSTEM_NODES[i].y - ECOSYSTEM_NODES[j].y;
+        const dx = ECOSYSTEM_NODES[i]!.x - ECOSYSTEM_NODES[j]!.x;
+        const dy = ECOSYSTEM_NODES[i]!.y - ECOSYSTEM_NODES[j]!.y;
         if (Math.hypot(dx, dy) < 38) out.push({ a: i, b: j });
       }
     }
@@ -386,7 +386,7 @@ function NexusBackground() {
           </linearGradient>
         </defs>
         {links.map((l, i) => {
-          const a = ECOSYSTEM_NODES[l.a], b = ECOSYSTEM_NODES[l.b];
+          const a = ECOSYSTEM_NODES[l.a]!, b = ECOSYSTEM_NODES[l.b]!;
           return (
             <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
               stroke="url(#nx-line)" strokeWidth="0.08" vectorEffect="non-scaling-stroke" />

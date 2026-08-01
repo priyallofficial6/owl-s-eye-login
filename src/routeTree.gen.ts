@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRoleRouteImport } from './routes/dashboard.$role'
+import { Route as QrApproveTokenRouteImport } from './routes/qr-approve.$token'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const DashboardRoleRoute = DashboardRoleRouteImport.update({
   path: '/dashboard/$role',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QrApproveTokenRoute = QrApproveTokenRouteImport.update({
+  id: '/qr-approve/$token',
+  path: '/qr-approve/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/dashboard/$role': typeof DashboardRoleRoute
+  '/qr-approve/$token': typeof QrApproveTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/dashboard/$role': typeof DashboardRoleRoute
+  '/qr-approve/$token': typeof QrApproveTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,21 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/dashboard/$role': typeof DashboardRoleRoute
+  '/qr-approve/$token': typeof QrApproveTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat' | '/login' | '/dashboard/$role'
+  fullPaths:
+    '/' | '/chat' | '/login' | '/dashboard/$role' | '/qr-approve/$token'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat' | '/login' | '/dashboard/$role'
-  id: '__root__' | '/' | '/chat' | '/login' | '/dashboard/$role'
+  to: '/' | '/chat' | '/login' | '/dashboard/$role' | '/qr-approve/$token'
+  id:
+    | '__root__'
+    | '/'
+    | '/chat'
+    | '/login'
+    | '/dashboard/$role'
+    | '/qr-approve/$token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +83,7 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   LoginRoute: typeof LoginRoute
   DashboardRoleRoute: typeof DashboardRoleRoute
+  QrApproveTokenRoute: typeof QrApproveTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRoleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/qr-approve/$token': {
+      id: '/qr-approve/$token'
+      path: '/qr-approve/$token'
+      fullPath: '/qr-approve/$token'
+      preLoaderRoute: typeof QrApproveTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +131,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoute: ChatRoute,
   LoginRoute: LoginRoute,
   DashboardRoleRoute: DashboardRoleRoute,
+  QrApproveTokenRoute: QrApproveTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

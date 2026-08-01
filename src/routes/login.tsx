@@ -1146,35 +1146,14 @@ function AIAvatar({ stage }: { stage: AIState }) {
           background: `radial-gradient(55% 50% at 50% 40%, ${accent.replace(")", " / 0.45)")}, transparent 72%)`,
         }}
       />
-      {/* Portrait — upper body framing with edge blend and floor shadow */}
-      <div className="absolute inset-0 flex items-end justify-center [animation:nx-float_7s_ease-in-out_infinite]">
-        <div className="relative h-[92%]" style={{ filter: "drop-shadow(0 24px 28px rgba(0,0,0,0.55))" }}>
-          <img
-            src={aiConciergeUrl}
-            alt="Vala · AI Concierge"
-            className="h-full w-auto max-w-none object-contain [animation:nx-breathe_5s_ease-in-out_infinite]"
-            style={{
-              maskImage:
-                "linear-gradient(180deg, #000 78%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(180deg, #000 78%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%)",
-              maskComposite: "intersect",
-              WebkitMaskComposite: "source-in",
-            }}
-          />
-          {/* color-grade overlay to marry portrait to scene */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 transition-colors duration-700"
-            style={{
-              background: `linear-gradient(180deg, transparent 40%, ${accent.replace(")", " / 0.10)")} 100%)`,
-              mixBlendMode: "soft-light",
-              maskImage: "linear-gradient(180deg, #000 78%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(180deg, #000 78%, transparent 100%)",
-            }}
-          />
-        </div>
-      </div>
+      {/* Owl concierge — covers its eyes while secrets are typed */}
+      <OwlConcierge
+        covered={stage === "typingPass"}
+        accent={accent}
+        alert={stage === "wrongPass" || stage === "locked" || stage === "serverError"}
+        celebrate={stage === "success" || stage === "first"}
+      />
+
       {/* floor shadow ellipse — grounds the portrait */}
       <div
         aria-hidden

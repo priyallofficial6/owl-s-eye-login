@@ -24,12 +24,12 @@ const RARE_GLYPHS = ["👑","💎","🚀","🏆","🌎","✨"];
 function pickEffect(): { glyphs: string[]; count: number; rare: boolean } {
   const roll = Math.random();
   if (roll < 0.01) {
-    return { glyphs: [RARE_GLYPHS[Math.floor(Math.random() * RARE_GLYPHS.length)]], count: 16, rare: true };
+    return { glyphs: [RARE_GLYPHS[Math.floor(Math.random() * RARE_GLYPHS.length)]!], count: 16, rare: true };
   }
   if (roll < 0.21) {
     return { glyphs: CURRENCY_GLYPHS, count: 11, rare: false };
   }
-  const g = COMMON_GLYPHS[Math.floor(Math.random() * COMMON_GLYPHS.length)];
+  const g = COMMON_GLYPHS[Math.floor(Math.random() * COMMON_GLYPHS.length)]!;
   return { glyphs: [g], count: 9, rare: false };
 }
 
@@ -49,7 +49,7 @@ function buildParticles(): Particle[] {
       y: fallY,
       rot: (Math.random() - 0.5) * 60,
       scale: 0.8 + Math.random() * 0.7,
-      glyph: glyphs[i % glyphs.length],
+      glyph: glyphs[i % glyphs.length]!,
       dur: 2600 + Math.random() * 1800, // slow fall: 2.6s – 4.4s
       delay: Math.random() * 900,        // staggered like raindrops
     });

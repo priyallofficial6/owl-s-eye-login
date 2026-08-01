@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { admin, magicTokenFor } from "@/lib/auth-methods.server";
 
 /**
  * Real server-side backing for the alternative login methods on /login.
@@ -9,20 +10,6 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 type SessionTokens = { access_token: string; refresh_token: string };
 
-async function admin() {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return supabaseAdmin as any;
-}
-
-async function magicTokenFor(email: string): Promise<string> {
-  const a = await admin();
-  const { data, error } = await a.auth.admin.generateLink({ type: "magiclink", email });
-  if (error) throw new Error(error.message);
-  const hashed = data?.properties?.hashed_token;
-  if (!hashed) throw new Error("Could not create a sign-in token for this account.");
-  return hashed as string;
-}
 
 /* ---------------- Username + password ---------------- */
 

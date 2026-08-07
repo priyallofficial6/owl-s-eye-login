@@ -15,7 +15,7 @@ import {
   createQrSession, pollQrSession, signInWithLicenseKey, signInWithUsername,
 } from "@/lib/auth-methods.functions";
 import { toast } from "sonner";
-import { OwlConcierge } from "@/components/owl/OwlConcierge";
+import { OwlCharacter } from "@/components/owl/OwlCharacter";
 import checkerBgAsset from "@/assets/softwarevala-checker-bg.jpg.asset.json";
 
 const loginSearchSchema = z.object({ next: z.string().optional() });

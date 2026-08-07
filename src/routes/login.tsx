@@ -15,7 +15,7 @@ import {
   createQrSession, pollQrSession, signInWithLicenseKey, signInWithUsername,
 } from "@/lib/auth-methods.functions";
 import { toast } from "sonner";
-import { OwlConcierge } from "@/components/owl/OwlConcierge";
+import { OwlCharacter } from "@/components/owl/OwlCharacter";
 import checkerBgAsset from "@/assets/softwarevala-checker-bg.jpg.asset.json";
 
 const loginSearchSchema = z.object({ next: z.string().optional() });
@@ -264,6 +264,8 @@ function NexusLogin() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[oklch(0.10_0.02_265)] text-[oklch(0.96_0.01_260)]">
       <NexusBackground />
+      <CursorSpotlight />
+
 
       {/* Top strip — security telemetry */}
       <div className="relative z-20 mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 pt-5 [animation:nx-fade-down_700ms_ease-out_both]">
@@ -345,7 +347,48 @@ function NexusLogin() {
   );
 }
 
+/* ============================ Cursor spotlight ============================ */
+
+function CursorSpotlight() {
+  const [p, setP] = useState({ x: 0.5, y: 0.4, on: false });
+
+  useEffect(() => {
+    const onMove = (e: PointerEvent) =>
+      setP({ x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight, on: true });
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+
+  const x = `${p.x * 100}%`;
+  const y = `${p.y * 100}%`;
+
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-[5]">
+      {/* warm torch that reveals the scene around the pointer */}
+      <div
+        className="absolute inset-0 transition-opacity duration-500"
+        style={{
+          opacity: p.on ? 1 : 0.35,
+          background:
+            `radial-gradient(340px 340px at ${x} ${y}, oklch(0.92 0.15 75 / 0.16), transparent 70%),` +
+            `radial-gradient(760px 760px at ${x} ${y}, oklch(0.75 0.16 320 / 0.14), transparent 72%)`,
+          mixBlendMode: "screen",
+        }}
+      />
+      {/* darkening mask everywhere the torch is not */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(620px 620px at ${x} ${y}, transparent 0%, oklch(0.06 0.02 300 / 0.30) 62%, oklch(0.05 0.02 300 / 0.55) 100%)`,
+        }}
+      />
+    </div>
+  );
+}
+
 /* ============================ Background ============================ */
+
+
 
 function NexusBackground() {
   const links = useMemo(() => {
@@ -365,11 +408,12 @@ function NexusBackground() {
       {/* base gradients */}
       <div className="absolute inset-0" style={{
         background:
-          "radial-gradient(80% 60% at 20% 10%, oklch(0.32 0.18 280 / 0.55), transparent 60%)," +
-          "radial-gradient(70% 60% at 90% 20%, oklch(0.32 0.16 220 / 0.5), transparent 60%)," +
-          "radial-gradient(70% 80% at 70% 100%, oklch(0.28 0.18 320 / 0.45), transparent 60%)," +
-          "linear-gradient(180deg, oklch(0.12 0.02 265), oklch(0.10 0.02 265))",
+          "radial-gradient(80% 60% at 18% 8%, oklch(0.36 0.16 330 / 0.55), transparent 60%)," +
+          "radial-gradient(70% 60% at 92% 18%, oklch(0.34 0.14 70 / 0.42), transparent 62%)," +
+          "radial-gradient(70% 80% at 68% 100%, oklch(0.30 0.14 180 / 0.40), transparent 62%)," +
+          "linear-gradient(180deg, oklch(0.13 0.03 320), oklch(0.09 0.02 310))",
       }} />
+
       {/* subtle grid */}
       <div className="absolute inset-0 opacity-[0.08]" style={{
         backgroundImage:
@@ -381,8 +425,8 @@ function NexusBackground() {
       <svg className="absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
           <linearGradient id="nx-line" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="oklch(0.82 0.18 260)" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="oklch(0.82 0.18 320)" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="oklch(0.85 0.16 330)" stopOpacity="0.32" />
+            <stop offset="100%" stopColor="oklch(0.88 0.15 75)" stopOpacity="0.05" />
           </linearGradient>
         </defs>
         {links.map((l, i) => {
@@ -394,18 +438,19 @@ function NexusBackground() {
         })}
         {ECOSYSTEM_NODES.map((n, i) => (
           <g key={n.id}>
-            <circle cx={n.x} cy={n.y} r="0.9" fill="oklch(0.85 0.18 270)" opacity="0.85">
+            <circle cx={n.x} cy={n.y} r="0.9" fill="oklch(0.88 0.15 330)" opacity="0.85">
               <animate attributeName="r" values="0.7;1.2;0.7" dur={`${4 + (i % 5)}s`} repeatCount="indefinite" />
               <animate attributeName="opacity" values="0.4;1;0.4" dur={`${4 + (i % 5)}s`} repeatCount="indefinite" />
             </circle>
-            <circle cx={n.x} cy={n.y} r="2.4" fill="oklch(0.85 0.18 270)" opacity="0.10" />
+            <circle cx={n.x} cy={n.y} r="2.4" fill="oklch(0.88 0.15 75)" opacity="0.10" />
           </g>
         ))}
       </svg>
       {/* drifting aurora orbs */}
-      <div className="absolute -left-24 top-1/3 size-[460px] rounded-full blur-3xl [animation:nx-aurora_18s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.42), transparent 70%)" }} />
-      <div className="absolute -right-24 bottom-0 size-[520px] rounded-full blur-3xl [animation:nx-aurora_22s_ease-in-out_infinite_reverse]" style={{ background: "radial-gradient(circle, oklch(0.72 0.2 205 / 0.34), transparent 70%)" }} />
-      <div className="absolute left-1/2 top-0 size-[380px] -translate-x-1/2 rounded-full blur-3xl [animation:nx-aurora_26s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 320 / 0.28), transparent 70%)" }} />
+      <div className="absolute -left-24 top-1/3 size-[460px] rounded-full blur-3xl [animation:nx-aurora_18s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.72 0.2 330 / 0.40), transparent 70%)" }} />
+      <div className="absolute -right-24 bottom-0 size-[520px] rounded-full blur-3xl [animation:nx-aurora_22s_ease-in-out_infinite_reverse]" style={{ background: "radial-gradient(circle, oklch(0.78 0.16 75 / 0.30), transparent 70%)" }} />
+      <div className="absolute left-1/2 top-0 size-[380px] -translate-x-1/2 rounded-full blur-3xl [animation:nx-aurora_26s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.72 0.15 180 / 0.26), transparent 70%)" }} />
+
       {/* film grain */}
       <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{
         backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>\")",
@@ -421,9 +466,79 @@ function NexusBackground() {
 
 /* ============================ Left Panel ============================ */
 
+const SLIDES = [
+  {
+    tag: "Nexus OS",
+    title: "One operating system for the whole company",
+    body: "Projects, people, payroll, support and delivery — a single signed-in surface.",
+    grad: "linear-gradient(135deg, oklch(0.55 0.19 330), oklch(0.48 0.16 300))",
+  },
+  {
+    tag: "Security",
+    title: "Passwordless, licensed or QR — your choice",
+    body: "Every method is backed by real sessions, real roles and per-device approval.",
+    grad: "linear-gradient(135deg, oklch(0.52 0.14 190), oklch(0.45 0.15 250))",
+  },
+  {
+    tag: "Scale",
+    title: "42 regions · 1,000,000+ operators",
+    body: "Built for global teams working around the clock without a single hand-off gap.",
+    grad: "linear-gradient(135deg, oklch(0.60 0.16 75), oklch(0.50 0.17 40))",
+  },
+];
+
+function ShowcaseSlider() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % SLIDES.length), 5200);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <GlassCard className="relative overflow-hidden p-0">
+      <div className="relative h-[190px]">
+        {SLIDES.map((s, idx) => (
+          <div
+            key={s.tag}
+            className="absolute inset-0 flex flex-col justify-end p-4 transition-all duration-700"
+            style={{
+              background: s.grad,
+              opacity: idx === i ? 1 : 0,
+              transform: `translateX(${(idx - i) * 12}px) scale(${idx === i ? 1 : 1.04})`,
+            }}
+          >
+            <span className="w-fit rounded-full bg-black/25 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/85 ring-1 ring-white/20">
+              {s.tag}
+            </span>
+            <p className="mt-2 text-[15px] font-semibold leading-snug text-white">{s.title}</p>
+            <p className="mt-1 text-[11.5px] leading-relaxed text-white/80">{s.body}</p>
+          </div>
+        ))}
+        <div className="absolute inset-x-4 top-4 flex gap-1.5">
+          {SLIDES.map((s, idx) => (
+            <button
+              key={s.tag}
+              aria-label={`Show slide ${idx + 1}`}
+              onClick={() => setI(idx)}
+              className="h-1 flex-1 overflow-hidden rounded-full bg-white/25"
+            >
+              <span
+                className="block h-full rounded-full bg-white transition-all duration-700"
+                style={{ width: idx === i ? "100%" : "0%" }}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+    </GlassCard>
+  );
+}
+
 function LeftPanel() {
   return (
     <aside className="hidden lg:flex flex-col gap-4">
+      <ShowcaseSlider />
+
       <GlassCard className="p-4">
         <div className="flex items-center justify-between">
           <p className="text-[11px] uppercase tracking-[0.18em] text-white/55">Ecosystem · Opportunities</p>
@@ -513,8 +628,8 @@ function CenterPanel(props: {
     <section className="flex min-w-0 flex-col items-center justify-start">
       <GlassCard className="relative w-full max-w-[540px] overflow-hidden p-0">
         {/* Ambient corner glows */}
-        <span aria-hidden className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.35), transparent 70%)" }} />
-        <span aria-hidden className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 205 / 0.28), transparent 70%)" }} />
+        <span aria-hidden className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.72 0.20 330 / 0.38), transparent 70%)" }} />
+        <span aria-hidden className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.78 0.16 75 / 0.26), transparent 70%)" }} />
 
         {/* Brand header — hero logo treatment */}
         <div className="relative px-7 pt-7">
@@ -533,7 +648,7 @@ function CenterPanel(props: {
           <div className="mt-7">
             <h1 className="text-[28px] font-semibold leading-[1.1] tracking-tight text-white">
               Welcome back,{" "}
-              <span className="bg-gradient-to-r from-violet-200 via-fuchsia-200 to-cyan-200 bg-clip-text text-transparent">Boss</span>
+              <span className="bg-gradient-to-r from-fuchsia-200 via-rose-200 to-amber-200 bg-clip-text text-transparent">Boss</span>
             </h1>
             <p className="mt-1.5 text-[13px] text-white/55">
               Sign in to enter the Software Vala universe.
@@ -557,7 +672,7 @@ function CenterPanel(props: {
                       ? "text-white shadow-[0_10px_30px_-10px_oklch(0.6_0.22_285/0.8)] ring-1 ring-white/20"
                       : "bg-white/[0.04] text-white/70 ring-1 ring-white/10 hover:bg-white/[0.08] hover:text-white/90",
                   ].join(" ")}
-                  style={active ? { background: "linear-gradient(135deg, oklch(0.5 0.22 290), oklch(0.55 0.2 240))" } : undefined}
+                  style={active ? { background: "linear-gradient(135deg, oklch(0.55 0.20 335), oklch(0.62 0.16 60))" } : undefined}
                 >
                   <m.icon className="size-3.5" /> {m.label}
                 </button>
@@ -646,7 +761,7 @@ function CenterPanel(props: {
                 <label className="inline-flex cursor-pointer select-none items-center gap-2 text-[12px] text-white/65">
                   <span className={[
                     "relative inline-flex h-[18px] w-[32px] items-center rounded-full transition-colors",
-                    remember ? "bg-violet-500/80" : "bg-white/10",
+                    remember ? "bg-fuchsia-500/80" : "bg-white/10",
                   ].join(" ")} onClick={() => setRemember(!remember)}>
                     <span className={[
                       "absolute top-[2px] size-[14px] rounded-full bg-white transition-all",
@@ -676,7 +791,7 @@ function CenterPanel(props: {
                 type="submit"
                 disabled={submitting}
                 className="group relative mt-2 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-4 py-3.5 text-[14px] font-semibold text-white shadow-[0_20px_50px_-16px_oklch(0.55_0.22_280/0.8),inset_0_1px_0_oklch(1_0_0/0.22)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_28px_60px_-18px_oklch(0.6_0.22_280/0.9),inset_0_1px_0_oklch(1_0_0/0.3)] active:translate-y-0 disabled:opacity-70"
-                style={{ background: "linear-gradient(135deg, oklch(0.55 0.22 285), oklch(0.58 0.2 240))" }}
+                style={{ background: "linear-gradient(135deg, oklch(0.58 0.21 335), oklch(0.66 0.17 55))" }}
               >
                 {/* hover gradient swap */}
                 <span className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -784,7 +899,7 @@ function Field(props: {
   return (
     <label className={[
       "group block rounded-xl bg-white/[0.04] px-3.5 py-2.5 ring-1 transition-all",
-      focused ? "ring-violet-400/60 bg-white/[0.06] shadow-[0_0_0_4px_oklch(0.7_0.2_280/0.12)]" : "ring-white/10",
+      focused ? "ring-fuchsia-400/60 bg-white/[0.06] shadow-[0_0_0_4px_oklch(0.7_0.2_335/0.14)]" : "ring-white/10",
     ].join(" ")}>
       <div className="text-[10px] uppercase tracking-[0.16em] text-white/45">{label}</div>
       <div className="mt-0.5 flex items-center gap-2">
@@ -866,7 +981,7 @@ function QRPanel({ onAuthenticated }: { onAuthenticated: () => void }) {
             <span className="size-6 animate-spin rounded-full border-2 border-slate-300 border-t-slate-700" />
           )}
           {status === "pending" && (
-            <span className="pointer-events-none absolute inset-x-0 h-[2px] animate-[nx-scan_2.2s_linear_infinite] bg-gradient-to-r from-transparent via-violet-500 to-transparent" />
+            <span className="pointer-events-none absolute inset-x-0 h-[2px] animate-[nx-scan_2.2s_linear_infinite] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent" />
           )}
         </div>
         <div>
@@ -1068,7 +1183,7 @@ function CollapsibleCard({
 
 function AIAvatar({ stage }: { stage: AIState }) {
   const accentMap: Partial<Record<AIState, string>> = {
-    greeting: "oklch(0.78 0.18 280)",
+    greeting: "oklch(0.82 0.15 320)",
     success: "oklch(0.78 0.17 150)",
     wrongPass: "oklch(0.72 0.2 25)",
     locked: "oklch(0.72 0.2 25)",
@@ -1076,7 +1191,7 @@ function AIAvatar({ stage }: { stage: AIState }) {
     serverError: "oklch(0.72 0.2 25)",
     vip: "oklch(0.85 0.17 80)",
   };
-  const accent = accentMap[stage] ?? "oklch(0.78 0.18 260)";
+  const accent = accentMap[stage] ?? "oklch(0.80 0.16 330)";
 
   // Human-like reaction captions per state (mirrors the reference sheet).
   const reactionMap: Record<AIState, { expression: string; caption: string }> = {
@@ -1146,13 +1261,21 @@ function AIAvatar({ stage }: { stage: AIState }) {
           background: `radial-gradient(55% 50% at 50% 40%, ${accent.replace(")", " / 0.45)")}, transparent 72%)`,
         }}
       />
-      {/* Owl concierge — covers its eyes while secrets are typed */}
-      <OwlConcierge
-        covered={stage === "typingPass"}
-        accent={accent}
-        alert={stage === "wrongPass" || stage === "locked" || stage === "serverError"}
-        celebrate={stage === "success" || stage === "first"}
+      {/* Rigged vector owl — one skeleton, spring-driven; never an image swap */}
+      <OwlCharacter
+        pose={
+          stage === "typingPass" || stage === "license"
+            ? "hide"
+            : stage === "success" || stage === "first" || stage === "vip"
+              ? "celebrate"
+              : stage === "wrongPass" || stage === "locked" || stage === "serverError"
+                ? "concerned"
+                : stage === "typingUser" || stage === "otp" || stage === "qr"
+                  ? "curious"
+                  : "idle"
+        }
       />
+
 
       {/* floor shadow ellipse — grounds the portrait */}
       <div

@@ -264,6 +264,8 @@ function NexusLogin() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[oklch(0.10_0.02_265)] text-[oklch(0.96_0.01_260)]">
       <NexusBackground />
+      <CursorSpotlight />
+
 
       {/* Top strip — security telemetry */}
       <div className="relative z-20 mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 pt-5 [animation:nx-fade-down_700ms_ease-out_both]">

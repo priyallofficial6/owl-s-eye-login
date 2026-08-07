@@ -1183,7 +1183,7 @@ function CollapsibleCard({
 
 function AIAvatar({ stage }: { stage: AIState }) {
   const accentMap: Partial<Record<AIState, string>> = {
-    greeting: "oklch(0.78 0.18 280)",
+    greeting: "oklch(0.82 0.15 320)",
     success: "oklch(0.78 0.17 150)",
     wrongPass: "oklch(0.72 0.2 25)",
     locked: "oklch(0.72 0.2 25)",
@@ -1191,7 +1191,7 @@ function AIAvatar({ stage }: { stage: AIState }) {
     serverError: "oklch(0.72 0.2 25)",
     vip: "oklch(0.85 0.17 80)",
   };
-  const accent = accentMap[stage] ?? "oklch(0.78 0.18 260)";
+  const accent = accentMap[stage] ?? "oklch(0.80 0.16 330)";
 
   // Human-like reaction captions per state (mirrors the reference sheet).
   const reactionMap: Record<AIState, { expression: string; caption: string }> = {

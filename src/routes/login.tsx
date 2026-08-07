@@ -1146,13 +1146,21 @@ function AIAvatar({ stage }: { stage: AIState }) {
           background: `radial-gradient(55% 50% at 50% 40%, ${accent.replace(")", " / 0.45)")}, transparent 72%)`,
         }}
       />
-      {/* Owl concierge — covers its eyes while secrets are typed */}
-      <OwlConcierge
-        covered={stage === "typingPass"}
-        accent={accent}
-        alert={stage === "wrongPass" || stage === "locked" || stage === "serverError"}
-        celebrate={stage === "success" || stage === "first"}
+      {/* Rigged vector owl — one skeleton, spring-driven; never an image swap */}
+      <OwlCharacter
+        pose={
+          stage === "typingPass" || stage === "license"
+            ? "hide"
+            : stage === "success" || stage === "first" || stage === "vip"
+              ? "celebrate"
+              : stage === "wrongPass" || stage === "locked" || stage === "serverError"
+                ? "concerned"
+                : stage === "typingUser" || stage === "otp" || stage === "qr"
+                  ? "curious"
+                  : "idle"
+        }
       />
+
 
       {/* floor shadow ellipse — grounds the portrait */}
       <div

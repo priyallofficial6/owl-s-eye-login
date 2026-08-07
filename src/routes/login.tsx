@@ -408,11 +408,12 @@ function NexusBackground() {
       {/* base gradients */}
       <div className="absolute inset-0" style={{
         background:
-          "radial-gradient(80% 60% at 20% 10%, oklch(0.32 0.18 280 / 0.55), transparent 60%)," +
-          "radial-gradient(70% 60% at 90% 20%, oklch(0.32 0.16 220 / 0.5), transparent 60%)," +
-          "radial-gradient(70% 80% at 70% 100%, oklch(0.28 0.18 320 / 0.45), transparent 60%)," +
-          "linear-gradient(180deg, oklch(0.12 0.02 265), oklch(0.10 0.02 265))",
+          "radial-gradient(80% 60% at 18% 8%, oklch(0.36 0.16 330 / 0.55), transparent 60%)," +
+          "radial-gradient(70% 60% at 92% 18%, oklch(0.34 0.14 70 / 0.42), transparent 62%)," +
+          "radial-gradient(70% 80% at 68% 100%, oklch(0.30 0.14 180 / 0.40), transparent 62%)," +
+          "linear-gradient(180deg, oklch(0.13 0.03 320), oklch(0.09 0.02 310))",
       }} />
+
       {/* subtle grid */}
       <div className="absolute inset-0 opacity-[0.08]" style={{
         backgroundImage:

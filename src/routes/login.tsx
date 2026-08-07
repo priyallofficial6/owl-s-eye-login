@@ -425,8 +425,8 @@ function NexusBackground() {
       <svg className="absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
           <linearGradient id="nx-line" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="oklch(0.82 0.18 260)" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="oklch(0.82 0.18 320)" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="oklch(0.85 0.16 330)" stopOpacity="0.32" />
+            <stop offset="100%" stopColor="oklch(0.88 0.15 75)" stopOpacity="0.05" />
           </linearGradient>
         </defs>
         {links.map((l, i) => {
@@ -438,18 +438,19 @@ function NexusBackground() {
         })}
         {ECOSYSTEM_NODES.map((n, i) => (
           <g key={n.id}>
-            <circle cx={n.x} cy={n.y} r="0.9" fill="oklch(0.85 0.18 270)" opacity="0.85">
+            <circle cx={n.x} cy={n.y} r="0.9" fill="oklch(0.88 0.15 330)" opacity="0.85">
               <animate attributeName="r" values="0.7;1.2;0.7" dur={`${4 + (i % 5)}s`} repeatCount="indefinite" />
               <animate attributeName="opacity" values="0.4;1;0.4" dur={`${4 + (i % 5)}s`} repeatCount="indefinite" />
             </circle>
-            <circle cx={n.x} cy={n.y} r="2.4" fill="oklch(0.85 0.18 270)" opacity="0.10" />
+            <circle cx={n.x} cy={n.y} r="2.4" fill="oklch(0.88 0.15 75)" opacity="0.10" />
           </g>
         ))}
       </svg>
       {/* drifting aurora orbs */}
-      <div className="absolute -left-24 top-1/3 size-[460px] rounded-full blur-3xl [animation:nx-aurora_18s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.42), transparent 70%)" }} />
-      <div className="absolute -right-24 bottom-0 size-[520px] rounded-full blur-3xl [animation:nx-aurora_22s_ease-in-out_infinite_reverse]" style={{ background: "radial-gradient(circle, oklch(0.72 0.2 205 / 0.34), transparent 70%)" }} />
-      <div className="absolute left-1/2 top-0 size-[380px] -translate-x-1/2 rounded-full blur-3xl [animation:nx-aurora_26s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 320 / 0.28), transparent 70%)" }} />
+      <div className="absolute -left-24 top-1/3 size-[460px] rounded-full blur-3xl [animation:nx-aurora_18s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.72 0.2 330 / 0.40), transparent 70%)" }} />
+      <div className="absolute -right-24 bottom-0 size-[520px] rounded-full blur-3xl [animation:nx-aurora_22s_ease-in-out_infinite_reverse]" style={{ background: "radial-gradient(circle, oklch(0.78 0.16 75 / 0.30), transparent 70%)" }} />
+      <div className="absolute left-1/2 top-0 size-[380px] -translate-x-1/2 rounded-full blur-3xl [animation:nx-aurora_26s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.72 0.15 180 / 0.26), transparent 70%)" }} />
+
       {/* film grain */}
       <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{
         backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>\")",

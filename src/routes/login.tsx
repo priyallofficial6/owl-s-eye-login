@@ -899,7 +899,7 @@ function Field(props: {
   return (
     <label className={[
       "group block rounded-xl bg-white/[0.04] px-3.5 py-2.5 ring-1 transition-all",
-      focused ? "ring-violet-400/60 bg-white/[0.06] shadow-[0_0_0_4px_oklch(0.7_0.2_280/0.12)]" : "ring-white/10",
+      focused ? "ring-fuchsia-400/60 bg-white/[0.06] shadow-[0_0_0_4px_oklch(0.7_0.2_335/0.14)]" : "ring-white/10",
     ].join(" ")}>
       <div className="text-[10px] uppercase tracking-[0.16em] text-white/45">{label}</div>
       <div className="mt-0.5 flex items-center gap-2">

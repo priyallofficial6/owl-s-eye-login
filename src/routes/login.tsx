@@ -347,7 +347,48 @@ function NexusLogin() {
   );
 }
 
+/* ============================ Cursor spotlight ============================ */
+
+function CursorSpotlight() {
+  const [p, setP] = useState({ x: 0.5, y: 0.4, on: false });
+
+  useEffect(() => {
+    const onMove = (e: PointerEvent) =>
+      setP({ x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight, on: true });
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+
+  const x = `${p.x * 100}%`;
+  const y = `${p.y * 100}%`;
+
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-[5]">
+      {/* warm torch that reveals the scene around the pointer */}
+      <div
+        className="absolute inset-0 transition-opacity duration-500"
+        style={{
+          opacity: p.on ? 1 : 0.35,
+          background:
+            `radial-gradient(340px 340px at ${x} ${y}, oklch(0.92 0.15 75 / 0.16), transparent 70%),` +
+            `radial-gradient(760px 760px at ${x} ${y}, oklch(0.75 0.16 320 / 0.14), transparent 72%)`,
+          mixBlendMode: "screen",
+        }}
+      />
+      {/* darkening mask everywhere the torch is not */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(620px 620px at ${x} ${y}, transparent 0%, oklch(0.06 0.02 300 / 0.30) 62%, oklch(0.05 0.02 300 / 0.55) 100%)`,
+        }}
+      />
+    </div>
+  );
+}
+
 /* ============================ Background ============================ */
+
+
 
 function NexusBackground() {
   const links = useMemo(() => {

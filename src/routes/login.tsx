@@ -628,8 +628,8 @@ function CenterPanel(props: {
     <section className="flex min-w-0 flex-col items-center justify-start">
       <GlassCard className="relative w-full max-w-[540px] overflow-hidden p-0">
         {/* Ambient corner glows */}
-        <span aria-hidden className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.35), transparent 70%)" }} />
-        <span aria-hidden className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 205 / 0.28), transparent 70%)" }} />
+        <span aria-hidden className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.72 0.20 330 / 0.38), transparent 70%)" }} />
+        <span aria-hidden className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.78 0.16 75 / 0.26), transparent 70%)" }} />
 
         {/* Brand header — hero logo treatment */}
         <div className="relative px-7 pt-7">
@@ -648,7 +648,7 @@ function CenterPanel(props: {
           <div className="mt-7">
             <h1 className="text-[28px] font-semibold leading-[1.1] tracking-tight text-white">
               Welcome back,{" "}
-              <span className="bg-gradient-to-r from-violet-200 via-fuchsia-200 to-cyan-200 bg-clip-text text-transparent">Boss</span>
+              <span className="bg-gradient-to-r from-fuchsia-200 via-rose-200 to-amber-200 bg-clip-text text-transparent">Boss</span>
             </h1>
             <p className="mt-1.5 text-[13px] text-white/55">
               Sign in to enter the Software Vala universe.
@@ -672,7 +672,7 @@ function CenterPanel(props: {
                       ? "text-white shadow-[0_10px_30px_-10px_oklch(0.6_0.22_285/0.8)] ring-1 ring-white/20"
                       : "bg-white/[0.04] text-white/70 ring-1 ring-white/10 hover:bg-white/[0.08] hover:text-white/90",
                   ].join(" ")}
-                  style={active ? { background: "linear-gradient(135deg, oklch(0.5 0.22 290), oklch(0.55 0.2 240))" } : undefined}
+                  style={active ? { background: "linear-gradient(135deg, oklch(0.55 0.20 335), oklch(0.62 0.16 60))" } : undefined}
                 >
                   <m.icon className="size-3.5" /> {m.label}
                 </button>
@@ -761,7 +761,7 @@ function CenterPanel(props: {
                 <label className="inline-flex cursor-pointer select-none items-center gap-2 text-[12px] text-white/65">
                   <span className={[
                     "relative inline-flex h-[18px] w-[32px] items-center rounded-full transition-colors",
-                    remember ? "bg-violet-500/80" : "bg-white/10",
+                    remember ? "bg-fuchsia-500/80" : "bg-white/10",
                   ].join(" ")} onClick={() => setRemember(!remember)}>
                     <span className={[
                       "absolute top-[2px] size-[14px] rounded-full bg-white transition-all",
@@ -791,7 +791,7 @@ function CenterPanel(props: {
                 type="submit"
                 disabled={submitting}
                 className="group relative mt-2 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-4 py-3.5 text-[14px] font-semibold text-white shadow-[0_20px_50px_-16px_oklch(0.55_0.22_280/0.8),inset_0_1px_0_oklch(1_0_0/0.22)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_28px_60px_-18px_oklch(0.6_0.22_280/0.9),inset_0_1px_0_oklch(1_0_0/0.3)] active:translate-y-0 disabled:opacity-70"
-                style={{ background: "linear-gradient(135deg, oklch(0.55 0.22 285), oklch(0.58 0.2 240))" }}
+                style={{ background: "linear-gradient(135deg, oklch(0.58 0.21 335), oklch(0.66 0.17 55))" }}
               >
                 {/* hover gradient swap */}
                 <span className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -981,7 +981,7 @@ function QRPanel({ onAuthenticated }: { onAuthenticated: () => void }) {
             <span className="size-6 animate-spin rounded-full border-2 border-slate-300 border-t-slate-700" />
           )}
           {status === "pending" && (
-            <span className="pointer-events-none absolute inset-x-0 h-[2px] animate-[nx-scan_2.2s_linear_infinite] bg-gradient-to-r from-transparent via-violet-500 to-transparent" />
+            <span className="pointer-events-none absolute inset-x-0 h-[2px] animate-[nx-scan_2.2s_linear_infinite] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent" />
           )}
         </div>
         <div>

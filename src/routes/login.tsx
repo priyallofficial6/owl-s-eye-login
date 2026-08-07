@@ -466,9 +466,79 @@ function NexusBackground() {
 
 /* ============================ Left Panel ============================ */
 
+const SLIDES = [
+  {
+    tag: "Nexus OS",
+    title: "One operating system for the whole company",
+    body: "Projects, people, payroll, support and delivery — a single signed-in surface.",
+    grad: "linear-gradient(135deg, oklch(0.55 0.19 330), oklch(0.48 0.16 300))",
+  },
+  {
+    tag: "Security",
+    title: "Passwordless, licensed or QR — your choice",
+    body: "Every method is backed by real sessions, real roles and per-device approval.",
+    grad: "linear-gradient(135deg, oklch(0.52 0.14 190), oklch(0.45 0.15 250))",
+  },
+  {
+    tag: "Scale",
+    title: "42 regions · 1,000,000+ operators",
+    body: "Built for global teams working around the clock without a single hand-off gap.",
+    grad: "linear-gradient(135deg, oklch(0.60 0.16 75), oklch(0.50 0.17 40))",
+  },
+];
+
+function ShowcaseSlider() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % SLIDES.length), 5200);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <GlassCard className="relative overflow-hidden p-0">
+      <div className="relative h-[190px]">
+        {SLIDES.map((s, idx) => (
+          <div
+            key={s.tag}
+            className="absolute inset-0 flex flex-col justify-end p-4 transition-all duration-700"
+            style={{
+              background: s.grad,
+              opacity: idx === i ? 1 : 0,
+              transform: `translateX(${(idx - i) * 12}px) scale(${idx === i ? 1 : 1.04})`,
+            }}
+          >
+            <span className="w-fit rounded-full bg-black/25 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/85 ring-1 ring-white/20">
+              {s.tag}
+            </span>
+            <p className="mt-2 text-[15px] font-semibold leading-snug text-white">{s.title}</p>
+            <p className="mt-1 text-[11.5px] leading-relaxed text-white/80">{s.body}</p>
+          </div>
+        ))}
+        <div className="absolute inset-x-4 top-4 flex gap-1.5">
+          {SLIDES.map((s, idx) => (
+            <button
+              key={s.tag}
+              aria-label={`Show slide ${idx + 1}`}
+              onClick={() => setI(idx)}
+              className="h-1 flex-1 overflow-hidden rounded-full bg-white/25"
+            >
+              <span
+                className="block h-full rounded-full bg-white transition-all duration-700"
+                style={{ width: idx === i ? "100%" : "0%" }}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+    </GlassCard>
+  );
+}
+
 function LeftPanel() {
   return (
     <aside className="hidden lg:flex flex-col gap-4">
+      <ShowcaseSlider />
+
       <GlassCard className="p-4">
         <div className="flex items-center justify-between">
           <p className="text-[11px] uppercase tracking-[0.18em] text-white/55">Ecosystem · Opportunities</p>

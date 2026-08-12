@@ -124,7 +124,9 @@ export function OwlStage({ state = "idle" }: { state?: OwlState }) {
             muted
             playsInline
             preload="auto"
+            onTimeUpdate={onProgress(key)}
             aria-hidden={key !== state}
+
             className="absolute inset-0 size-full object-cover transition-opacity duration-700 ease-out"
             style={{ opacity: key === state ? 1 : 0 }}
           >

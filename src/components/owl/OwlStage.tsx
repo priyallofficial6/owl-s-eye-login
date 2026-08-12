@@ -24,11 +24,13 @@ import successWebm from "@/assets/owl-success.webm.asset.json";
 
 export type OwlState = "idle" | "curious" | "hide" | "celebrate";
 
-const CLIPS: Record<OwlState, { webm: string; mp4: string; loop: boolean }> = {
-  idle: { webm: idleWebm.url, mp4: idleAsset.url, loop: true },
-  curious: { webm: curiousWebm.url, mp4: curiousAsset.url, loop: false },
-  hide: { webm: coverWebm.url, mp4: coverAsset.url, loop: false },
-  celebrate: { webm: successWebm.url, mp4: successAsset.url, loop: false },
+const CLIPS: Record<OwlState, { webm: string; mp4: string; loop: boolean; hold: number }> = {
+  // `hold` = fraction of the clip after which a one-shot reaction freezes on its
+  // acted-out pose (so the covered eyes / thumbs-up stay held while the field is focused)
+  idle: { webm: idleWebm.url, mp4: idleAsset.url, loop: true, hold: 1 },
+  curious: { webm: curiousWebm.url, mp4: curiousAsset.url, loop: false, hold: 0.82 },
+  hide: { webm: coverWebm.url, mp4: coverAsset.url, loop: false, hold: 0.88 },
+  celebrate: { webm: successWebm.url, mp4: successAsset.url, loop: false, hold: 0.9 },
 };
 
 
@@ -58,6 +60,18 @@ export function OwlStage({ state = "idle" }: { state?: OwlState }) {
       }
     }
   }, [state]);
+
+  // freeze one-shot reactions on their held pose instead of drifting back
+  const onProgress = (key: OwlState) => (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const el = e.currentTarget;
+    const cfg = CLIPS[key];
+    if (cfg.loop || !el.duration || Number.isNaN(el.duration)) return;
+    if (el.currentTime >= el.duration * cfg.hold) {
+      el.pause();
+      el.currentTime = el.duration * cfg.hold;
+    }
+  };
+
 
   // subtle pointer parallax — elegant, never exaggerated
   useEffect(() => {

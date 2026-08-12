@@ -15,7 +15,7 @@ import {
   createQrSession, pollQrSession, signInWithLicenseKey, signInWithUsername,
 } from "@/lib/auth-methods.functions";
 import { toast } from "sonner";
-import { OwlCharacter } from "@/components/owl/OwlCharacter";
+import { OwlStage } from "@/components/owl/OwlStage";
 import checkerBgAsset from "@/assets/softwarevala-checker-bg.jpg.asset.json";
 
 const loginSearchSchema = z.object({ next: z.string().optional() });
@@ -1261,20 +1261,19 @@ function AIAvatar({ stage }: { stage: AIState }) {
           background: `radial-gradient(55% 50% at 50% 40%, ${accent.replace(")", " / 0.45)")}, transparent 72%)`,
         }}
       />
-      {/* Rigged vector owl — one skeleton, spring-driven; never an image swap */}
-      <OwlCharacter
-        pose={
+      {/* Rendered 3D character animation of the owl — real clips, cross-dissolved */}
+      <OwlStage
+        state={
           stage === "typingPass" || stage === "license"
             ? "hide"
             : stage === "success" || stage === "first" || stage === "vip"
               ? "celebrate"
-              : stage === "wrongPass" || stage === "locked" || stage === "serverError"
-                ? "concerned"
-                : stage === "typingUser" || stage === "otp" || stage === "qr"
-                  ? "curious"
-                  : "idle"
+              : stage === "typingUser" || stage === "otp" || stage === "qr"
+                ? "curious"
+                : "idle"
         }
       />
+
 
 
       {/* floor shadow ellipse — grounds the portrait */}

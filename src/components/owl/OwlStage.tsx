@@ -3,6 +3,10 @@ import idleAsset from "@/assets/owl-idle.mp4.asset.json";
 import curiousAsset from "@/assets/owl-curious.mp4.asset.json";
 import coverAsset from "@/assets/owl-cover.mp4.asset.json";
 import successAsset from "@/assets/owl-success.mp4.asset.json";
+import idleWebm from "@/assets/owl-idle.webm.asset.json";
+import curiousWebm from "@/assets/owl-curious.webm.asset.json";
+import coverWebm from "@/assets/owl-cover.webm.asset.json";
+import successWebm from "@/assets/owl-success.webm.asset.json";
 
 /**
  * Real rendered 3D character animation of the owl mascot.
@@ -20,12 +24,13 @@ import successAsset from "@/assets/owl-success.mp4.asset.json";
 
 export type OwlState = "idle" | "curious" | "hide" | "celebrate";
 
-const CLIPS: Record<OwlState, { url: string; loop: boolean }> = {
-  idle: { url: idleAsset.url, loop: true },
-  curious: { url: curiousAsset.url, loop: false },
-  hide: { url: coverAsset.url, loop: false },
-  celebrate: { url: successAsset.url, loop: false },
+const CLIPS: Record<OwlState, { webm: string; mp4: string; loop: boolean }> = {
+  idle: { webm: idleWebm.url, mp4: idleAsset.url, loop: true },
+  curious: { webm: curiousWebm.url, mp4: curiousAsset.url, loop: false },
+  hide: { webm: coverWebm.url, mp4: coverAsset.url, loop: false },
+  celebrate: { webm: successWebm.url, mp4: successAsset.url, loop: false },
 };
+
 
 const ORDER: OwlState[] = ["idle", "curious", "hide", "celebrate"];
 

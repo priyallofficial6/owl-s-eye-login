@@ -105,7 +105,6 @@ export function OwlStage({ state = "idle" }: { state?: OwlState }) {
             ref={(el) => {
               videoRefs.current[key] = el;
             }}
-            src={CLIPS[key].url}
             autoPlay={CLIPS[key].loop}
             loop={CLIPS[key].loop}
             muted
@@ -114,7 +113,11 @@ export function OwlStage({ state = "idle" }: { state?: OwlState }) {
             aria-hidden={key !== state}
             className="absolute inset-0 size-full object-cover transition-opacity duration-700 ease-out"
             style={{ opacity: key === state ? 1 : 0 }}
-          />
+          >
+            <source src={CLIPS[key].webm} type="video/webm" />
+            <source src={CLIPS[key].mp4} type="video/mp4" />
+          </video>
+
         ))}
       </div>
 
